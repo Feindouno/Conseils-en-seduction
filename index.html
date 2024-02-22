@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Séduction pour tous et toutes</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* Ajout de style en ligne pour masquer la barre de demande de pseudonyme une fois que le pseudonyme est enregistré */
+        #pseudonyme-input {
+            display: block;
+        }
+        #pseudonyme-input.hidden {
+            display: none;
+        }
+        /* Ajout de style en ligne pour décaler le texte à l'intérieur des sections */
+        .section-content {
+            padding-left: 5cm;
+        }
+        /* Style pour le texte du conseil du jour en italique */
+        #conseil-du-jour p {
+            font-style: italic;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <!-- En-tête de votre site -->
+        <h1>Séduction pour toutes et tous</h1>
+    </header>
+
+    <section id="conseil-du-jour" class="section-content">
+        <!-- Conseil du Jour -->
+        <h2>Conseil du Jour - Indépendance et Séduction</h2>
+        <p>La reconnaissance et la discussion sur l'indépendance au sein d'une relation sont essentielles pour établir des bases solides et durables. Aborder ce sujet permet de favoriser un équilibre sain entre les partenaires, en encourageant chacun à développer et à maintenir son propre espace personnel. En comprenant l'importance de l'indépendance, les partenaires peuvent cultiver un respect mutuel et une compréhension de l'individualité de l'autre. Cette ouverture à l'indépendance au sein de la relation contribue à promouvoir la croissance individuelle et collective, renforçant ainsi le lien affectif et la stabilité émotionnelle. En somme, parler d'indépendance dans une relation permet d'établir un terrain propice à l'épanouissement personnel et à la santé de la relation dans son ensemble.</p>
+        <h3>Voici 5 conseils importants :</h3>
+        <ol>
+            <li>Avoir des Hobbies ou Passions Personnels : Montrez que vous avez des intérêts en dehors de la relation, comme la peinture, la musique, le sport ou tout autre loisir qui vous passionne.</li>
+            <li>Planifier des Sorties Seul ou avec des Amis : Parlez de vos sorties entre amis ou de vos activités en solo, cela montre que vous avez une vie sociale active.</li>
+            <li>Gérer Votre Vie Quotidienne : Montrez que vous êtes capable de gérer vos tâches quotidiennes, comme cuisiner, faire vos courses, ou gérer vos finances, sans avoir besoin d'une aide constante.</li>
+            <li>Avoir des Objectifs Personnels : Partagez vos objectifs personnels et professionnels, qu'ils soient à court ou à long terme. Cela montre que vous avez des ambitions et que vous travaillez pour les atteindre.</li>
+            <li>Voyager Seul : Racontez vos expériences de voyage en solo. Voyager seul est souvent perçu comme un signe d'indépendance et de confiance en soi.</li>
+        </ol>
+    </section>
+
+    <section id="pseudonyme-input" class="hidden">
+        <!-- Formulaire pour enregistrer le pseudonyme -->
+        <h2>Entrez votre pseudonyme</h2>
+        <form id="form-pseudonyme">
+            <label for="pseudonyme">Pseudonyme:</label>
+            <input type="text" id="pseudonyme" name="pseudonyme" required>
+            <button type="submit">Enregistrer</button>
+        </form>
+    </section>
+
+    <section id="presentation-section" class="hidden section-content">
+        <!-- Formulaire pour se présenter -->
+        <h2>Présentez-vous</h2>
+        <form id="form-presentation">
+            <label for="presentation">Présentez-vous:</label>
+            <textarea id="presentation" name="presentation"></textarea>
+            <button type="submit">Envoyer</button>
+        </form>
+    </section>
+
+    <section id="questions" class="hidden section-content">
+        <!-- Formulaire pour poser des questions -->
+        <h2>Posez Vos Questions</h2>
+        <form id="form-question">
+            <label for="question">Votre Question:</label>
+            <input type="text" id="question" name="question">
+            <button type="submit">Envoyer</button>
+        </form>
+        <!-- Section pour afficher les questions posées -->
+        <div id="questions-list"></div>
+    </section>
+
+    <section id="reponse-section" class="hidden section-content">
+        <!-- Section pour répondre à une question -->
+        <h2>Répondre à une Question</h2>
+        <select id="question-select"></select>
+        <textarea id="reponse" placeholder="Votre réponse..."></textarea>
+        <button id="submit-reponse">Envoyer la Réponse</button>
+    </section>
+
+
+    <script>
+        // JavaScript pour gérer les interactions utilisateur et stocker les données localement
+        document.getElementById('form-pseudonyme').addEventListener('submit', function(event) {
+            event.preventDefault(); // Empêcher le formulaire de se soumettre normalement
+
+            var pseudonymeInput = document.getElementById('pseudonyme').value; // Récupérer le pseudonyme saisi
+
+            // Enregistrer le pseudonyme dans le stockage local (localStorage)
+            localStorage.setItem('pseudonyme', pseudonymeInput);
+
+            // Masquer la section de demande de pseudonyme
+            document.getElementById('pseudonyme-input').classList.add('hidden');
+
+            // Afficher la section pour se présenter
+            document.getElementById('presentation-section').classList.remove('hidden');
+        });
+
+        document.getElementById('form-presentation').addEventListener('submit', function(event) {
+            event.preventDefault(); // Empêcher le formulaire de se soumettre normalement
+
+            var presentationInput = document.getElementById('presentation').value; // Récupérer la présentation saisie
+            var pseudonyme = localStorage.getItem('pseudonyme'); // Récupérer le pseudonyme enregistré
+
+            // Enregistrer la présentation dans le stockage local (localStorage)
+            localStorage.setItem('presentation', presentationInput);
+
+            // Masquer la section de présentation et afficher les sections pour poser des questions et répondre
+            document.getElementById('presentation-section').classList.add('hidden');
+            document.getElementById('questions').classList.remove('hidden');
+            document.getElementById('reponse-section').classList.remove('hidden');
+        });
+
+        document.getElementById('form-question').addEventListener('submit', function(event) {
+            event.preventDefault(); // Empêcher le formulaire de se soumettre normalement
+
+            var questionInput = document.getElementById('question').value; // Récupérer la question saisie
+            var pseudonyme = localStorage.getItem('pseudonyme'); // Récupérer le pseudonyme enregistré
+
+            // Vérifier si la question contient un numéro de téléphone
+            if (/\b\d{3}[-.]?\d{3}[-.]?\d{4}\b/.test(questionInput)) {
+                alert('Veuillez ne pas inclure votre numéro de téléphone dans la question.');
+                return; // Arrêter l'exécution de la fonction
+            }
+
+            // Vérifier si la question contient des mots insultants
+            var insults = ['idiot', 'imbécile', 'crétin', 'abruti', 'racisme', 'xénophobie', 'misogynie', 'misandrie', 'homophobie', 'connard', 'salopard', 'fils de pute', 'enculé', 'bâtard', 'pute', 'merde', 'foutre']; // Liste des mots insultants
+            for (var i = 0; i < insults.length; i++) {
+                if (questionInput.toLowerCase().includes(insults[i])) {
+                    alert('Veuillez ne pas utiliser de langage offensant dans la question.');
+                    return; // Arrêter l'exécution de la fonction
+                }
+            }
+
+            // Créer un nouvel élément de paragraphe pour afficher la question avec le pseudonyme
+            var questionItem = document.createElement('p');
+            questionItem.textContent = pseudonyme + ': ' + questionInput;
+
+            // Ajouter l'élément de paragraphe à la liste des questions
+            var questionList = document.getElementById('questions-list');
+            questionList.appendChild(questionItem);
+
+            // Créer un nouvel élément d'option pour la liste déroulante de questions
+            var option = document.createElement('option');
+            option.textContent = questionInput;
+            document.getElementById('question-select').appendChild(option);
+
+            // Réinitialiser le champ de saisie de la question
+            document.getElementById('question').value = '';
+        });
+
+        document.getElementById('submit-reponse').addEventListener('click', function() {
+            var selectedQuestion = document.getElementById('question-select').value; // Récupérer la question sélectionnée
+            var responseText = document.getElementById('reponse').value; // Récupérer le texte de la réponse
+
+            // Vérifier si la réponse contient un numéro de téléphone
+            if (/\b\d{3}[-.]?\d{3}[-.]?\d{4}\b/.test(responseText)) {
+                alert('Veuillez ne pas inclure votre numéro de téléphone dans la réponse.');
+                return; // Arrêter l'exécution de la fonction
+            }
+
+            // Vérifier si la réponse contient des mots insultants
+            var insults = ['idiot', 'imbécile', 'crétin', 'abruti', 'racisme', 'xénophobie', 'misogynie', 'misandrie', 'homophobie', 'connard', 'salopard', 'fils de pute', 'enculé', 'bâtard', 'pute', 'merde', 'foutre']; // Liste des mots insultants
+            for (var i = 0; i < insults.length; i++) {
+                if (responseText.toLowerCase().includes(insults[i])) {
+                    alert('Veuillez ne pas utiliser de langage offensant dans la réponse.');
+                    return; // Arrêter l'exécution de la fonction
+                }
+            }
+
+            // Créer un nouvel élément de paragraphe pour afficher la réponse
+            var responseItem = document.createElement('p');
+            responseItem.innerHTML = '<strong>Question :</strong> ' + selectedQuestion + '<br><strong>Réponse :</strong> ' + responseText;
+
+            // Ajouter l'élément de paragraphe à la section des réponses
+            document.getElementById('reponse-section').appendChild(responseItem);
+
+            // Réinitialiser le champ de saisie de la réponse
+            document.getElementById('reponse').value = '';
+        });
+
+        // Vérifier si un pseudonyme est déjà enregistré dans le stockage local
+        var storedPseudonyme = localStorage.getItem('pseudonyme');
+        if (storedPseudonyme) {
+            // Masquer la section de demande de pseudonyme et afficher la section de présentation
+            document.getElementById('pseudonyme-input').classList.add('hidden');
+        }
+
+        // Vérifier si une présentation est déjà enregistrée dans le stockage local
+        var storedPresentation = localStorage.getItem('presentation');
+        if (storedPresentation) {
+            // Masquer la section de présentation et afficher les sections pour poser des questions et répondre
+            document.getElementById('presentation-section').classList.add('hidden');
+            document.getElementById('questions').classList.remove('hidden');
+            document.getElementById('reponse-section').classList.remove('hidden');
+        }
+    </script>
+</body>
+</html>
